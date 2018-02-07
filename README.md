@@ -1,7 +1,7 @@
 ## Installation
 
 ### Clone repository and install dependencies
-
+Demo: ` https://annasepita.github.io/weather_app/app/info.html `
 via git and npm:
 
 ```

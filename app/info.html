@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="en" ng-app="openWeatherApp">
+<head>
+   <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta charset="utf-8">
+    <title>Weather</title>
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/app.css"/>
+    <link rel="stylesheet" href="fontawesome/fonts.css"/>
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="fontawesome/font-awesome.min.css"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+</head>
+<style>
+    .city{font-size: 14px;}
+    button{border: none; padding: 3px;  background-color: white; }
+    ul{ display: inline-block;  } ol{text-align: center;}
+    .a, .b{ display: none; }   h3{text-align: center;}
+    @media (min-width: 499px) {
+    }
+</style>
+<body>
+<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#/forecas">Weather</a>
+        <a class="navbar-brand" href="index.html">Come back</a>
+    </div>
+</nav>
+<h3>United Kingdom cities</h3>
+<div class="container">
+    <div class="city">
+        <button  onclick="Aberporth()"><a href="#/Aberporth">Aberporth</a></button>        <button onclick="Armagh()"><a  href="#/Armagh">Armagh</a></button>
+        <button onclick="Ballypatrick()"><a  href="#/Ballypatrick">Ballypatrick</a></button>        <button onclick="Bradford()"><a  href="#/Bradford">Bradford</a></button>
+        <button onclick="Braemar()"><a href="#/Braemar">Braemar</a></button>        <button onclick="Camborne()"><a href="#/Camborne">Camborne</a></button>
+        <button onclick="Cambridge()"><a href="#/Cambridge">Cambridge</a></button>        <button onclick="Cardiff()"><a  href="#/Cardiff">Cardiff</a></button>
+        <button onclick="Chivenor()"><a href="#/Chivenor">Chivenor</a></button>        <button onclick="Cwmystwyth()"><a  href="#/Cwmystwyth">Cwmystwyth</a></button>
+        <button onclick="Dunstaffnage()"><a  href="#/Dunstaffnage">Dunstaffnage</a></button>        <button onclick="Durham()"><a  href="#/Durham">Durham</a></button>
+        <button onclick="Eastbourne()"><a  href="#/Eastbourne">Eastbourne</a></button>        <button onclick="Eskdalemuir()"><a href="#/Eskdalemuir">Eskdalemuir</a></button>
+        <button onclick="Heathrow()"><a href="#/Heathrow">Heathrow</a></button>        <button onclick="Hurn()"><a  href="#/Hurn">Hurn</a></button>
+        <button onclick="Lerwick()"><a href="#/Lerwick">Lerwick</a></button>        <button onclick="Leuchars()"><a href="#/Leuchars">Leuchars</a></button>
+        <button onclick="Lowestoft()"><a href="#/Lowestoft">Lowestoft</a></button>        <button onclick="Manston()"><a href="#/Manston">Manston</a></button>
+        <button onclick="Newton()"><a  href="#/Newton">Newton</a></button>        <button onclick="Oxford()"><a href="#/Oxford">Oxford</a></button>
+        <button onclick="Paisley()"><a href="#/Paisley">Paisley</a></button>        <button onclick="Ringway()"><a href="#/Ringway">Ringway</a></button>
+        <button onclick="Shawbury()"><a href="#/Shawbury">Shawbury</a></button> <button onclick="Sheffield()"><a href="#/Sheffield">Sheffield</a></button>
+        <button onclick="Southampton()"><a  href="#/Southampton">Southampton</a></button> <button onclick="Stornoway()"><a href="#/Stornoway">Stornoway</a></button>
+        <button onclick="Valley()"><a href="#/Valley">Valley</a></button>        <button onclick="Waddington()"><a href="#/Waddington">Waddington</a></button>
+        <button onclick="Whitby()"><a href="#/Whitby">Whitby</a></button>        <button onclick="Wick()"><a href="#/Wick">Wick</a></button>
+        <button onclick="Yeovilton()"><a href="#/Yeovilton">Yeovilton</a></button>
+    </div>
+</div>
+
+<div class="a" id="a">
+        <div class="container"   ng-controller="mainController">
+            <table class="table table-bordered table-striped" >
+                <thead>
+                <tr>
+                    <td>
+                        <a href="#" ng-click="sortType = 'year'; sortReverse = !sortReverse">Year
+                            <span ng-show="sortType == 'year' && !sortReverse" class="fa fa-caret-down"></span><span ng-show="sortType == 'year' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortType = 'month'; sortReverse = !sortReverse">Month
+                            <span ng-show="sortType == 'month' && !sortReverse" class="fa fa-caret-down"></span><span ng-show="sortType == 'month' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortType = 'max'; sortReverse = !sortReverse">Tmax (degC)
+                            <span ng-show="sortType == 'max' && !sortReverse" class="fa fa-caret-down"></span><span ng-show="sortType == 'max' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortType = 'min'; sortReverse = !sortReverse">Tmin (degC)
+                            <span ng-show="sortType == 'min' && !sortReverse" class="fa fa-caret-down"></span><span ng-show="sortType == 'min' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortType = 'af'; sortReverse = !sortReverse">Af days
+                            <span ng-show="sortType == 'af' && !sortReverse" class="fa fa-caret-down"></span><span ng-show="sortType == 'af' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortType = 'rain'; sortReverse = !sortReverse">Rain (mm)
+                            <span ng-show="sortType == 'rain' && !sortReverse" class="fa fa-caret-down"></span><span ng-show="sortType == 'rain' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortType = 'sun'; sortReverse = !sortReverse">Sun hours
+                            <span ng-show="sortType == 'sun' && !sortReverse" class="fa fa-caret-down"></span><span ng-show="sortType == 'sun' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="roll in sushi | orderBy:sortType:sortReverse | filter:searchFish">
+                    <td>{{ roll.year }}</td>
+                    <td> {{ roll.month }}</td>
+                    <td>{{ roll.max }}</td>
+                    <td>{{ roll.min }}</td>
+                    <td>{{ roll.af }}</td>
+                    <td>{{ roll.rain }}</td>
+                    <td>{{ roll.sun }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+</div>
+<div class="b" id="b">
+           <div class="container"   ng-controller="mainCont">
+                <table class="table table-bordered table-striped" >
+                    <thead>
+                    <tr>
+                        <td>
+                            <a href="#" ng-click="sortType = 'year1'; sortReverse = !sortReverse">Year
+                                <span ng-show="sortType == 'year1' && !sortReverse" class="fa fa-caret-down"></span>                                <span ng-show="sortType == 'year1' && sortReverse" class="fa fa-caret-up"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" ng-click="sortType = 'month1'; sortReverse = !sortReverse">Month
+                                <span ng-show="sortType == 'month1' && !sortReverse" class="fa fa-caret-down"></span>                                <span ng-show="sortType == 'month1' && sortReverse" class="fa fa-caret-up"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" ng-click="sortType = 'max1'; sortReverse = !sortReverse">Tmax (degC)
+                                <span ng-show="sortType == 'max1' && !sortReverse" class="fa fa-caret-down"></span>                                <span ng-show="sortType == 'max1' && sortReverse" class="fa fa-caret-up"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" ng-click="sortType = 'min1'; sortReverse = !sortReverse">Tmin (degC)
+                                <span ng-show="sortType == 'min1' && !sortReverse" class="fa fa-caret-down"></span>                                <span ng-show="sortType == 'min1' && sortReverse" class="fa fa-caret-up"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" ng-click="sortType = 'af1'; sortReverse = !sortReverse">Af days
+                                <span ng-show="sortType == 'af1' && !sortReverse" class="fa fa-caret-down"></span>                                <span ng-show="sortType == 'af1' && sortReverse" class="fa fa-caret-up"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" ng-click="sortType = 'rain1'; sortReverse = !sortReverse">Rain (mm)
+                                <span ng-show="sortType == 'rain1' && !sortReverse" class="fa fa-caret-down"></span>                                <span ng-show="sortType == 'rain1' && sortReverse" class="fa fa-caret-up"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" ng-click="sortType = 'sun1'; sortReverse = !sortReverse">Sun hours
+                                <span ng-show="sortType == 'sun1' && !sortReverse" class="fa fa-caret-down"></span>
+                                <span ng-show="sortType == 'sun1' && sortReverse" class="fa fa-caret-up"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="rol in sush | orderBy:sortType:sortReverse | filter:searchFish">
+                        <td>{{ rol.year1 }}</td>                        <td> {{ rol.month1 }}</td>
+                        <td>{{ rol.max1 }}</td>                        <td>{{ rol.min1 }}</td>
+                        <td>{{ rol.af1 }}</td>                        <td>{{ rol.rain1 }}</td>
+                        <td>{{ rol.sun1 }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+</div>
+<div class="a" id="c">
+    <div class="container"   ng-controller="mainC">
+        <table class="table table-bordered table-striped" >
+            <thead>
+            <tr>
+                <td>
+                    <a href="#" ng-click="sortType = 'year2'; sortReverse = !sortReverse">Year
+                        <span ng-show="sortType == 'year2' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'year2' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'month2'; sortReverse = !sortReverse">Month
+                        <span ng-show="sortType == 'month2' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'month2' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'max2'; sortReverse = !sortReverse">Tmax (degC)
+                        <span ng-show="sortType == 'max2' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'max2' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'min2'; sortReverse = !sortReverse">Tmin (degC)
+                        <span ng-show="sortType == 'min2' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'min2' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'af2'; sortReverse = !sortReverse">Af days
+                        <span ng-show="sortType == 'af2' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'af2' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'rain2'; sortReverse = !sortReverse">Rain (mm)
+                        <span ng-show="sortType == 'rain2' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'rain2' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'sun2'; sortReverse = !sortReverse">Sun hours
+                        <span ng-show="sortType == 'sun2' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'sun2' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="ro in sushi1 | orderBy:sortType:sortReverse | filter:searchFish">
+                <td>{{ ro.year2 }}</td>                        <td> {{ ro.month2 }}</td>
+                <td>{{ ro.max2 }}</td>                        <td>{{ ro.min2 }}</td>
+                <td>{{ ro.af2 }}</td>                        <td>{{ ro.rain2 }}</td>
+                <td>{{ ro.sun2 }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="b" id="d">
+    <div class="container"   ng-controller="mainCo">
+        <table class="table table-bordered table-striped" >
+            <thead>
+            <tr>
+                <td>
+                    <a href="#" ng-click="sortType = 'year3'; sortReverse = !sortReverse">Year
+                        <span ng-show="sortType == 'year3' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'year3' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'month3'; sortReverse = !sortReverse">Month
+                        <span ng-show="sortType == 'month3' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'month3' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'max3'; sortReverse = !sortReverse">Tmax (degC)
+                        <span ng-show="sortType == 'max3' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'max3' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'min3'; sortReverse = !sortReverse">Tmin (degC)
+                        <span ng-show="sortType == 'min3' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'min3' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'af3'; sortReverse = !sortReverse">Af days
+                        <span ng-show="sortType == 'af3' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'af3' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'rain3'; sortReverse = !sortReverse">Rain (mm)
+                        <span ng-show="sortType == 'rain3' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'rain3' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'sun3'; sortReverse = !sortReverse">Sun hours
+                        <span ng-show="sortType == 'sun3' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'sun3' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="r in sushi3 | orderBy:sortType:sortReverse | filter:searchFish">
+                <td>{{ r.year3 }}</td>                        <td> {{ r.month3 }}</td>
+                <td>{{ r.max3 }}</td>                        <td>{{ r.min3 }}</td>
+                <td>{{ r.af3 }}</td>                        <td>{{ r.rain3 }}</td>
+                <td>{{ r.sun3 }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="a" id="e">
+    <div class="container"   ng-controller="mainCon">
+        <table class="table table-bordered table-striped" >
+            <thead>
+            <tr>
+                <td>
+                    <a href="#" ng-click="sortType = 'year4'; sortReverse = !sortReverse">Year
+                        <span ng-show="sortType == 'year4' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'year4' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'month4'; sortReverse = !sortReverse">Month
+                        <span ng-show="sortType == 'month4' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'month4' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'max4'; sortReverse = !sortReverse">Tmax (degC)
+                        <span ng-show="sortType == 'max4' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'max4' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'min4'; sortReverse = !sortReverse">Tmin (degC)
+                        <span ng-show="sortType == 'min4' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'min4' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'af4'; sortReverse = !sortReverse">Af days
+                        <span ng-show="sortType == 'af4' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'af4' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'rain4'; sortReverse = !sortReverse">Rain (mm)
+                        <span ng-show="sortType == 'rain4' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'rain4' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'sun4'; sortReverse = !sortReverse">Sun hours
+                        <span ng-show="sortType == 'sun4' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'sun4' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="rq in sushi4 | orderBy:sortType:sortReverse | filter:searchFish">
+                <td>{{ rq.year4 }}</td>                        <td> {{ rq.month4 }}</td>
+                <td>{{ rq.max4 }}</td>                        <td>{{ rq.min4 }}</td>
+                <td>{{ rq.af4 }}</td>                        <td>{{ rq.rain4 }}</td>
+                <td>{{ rq.sun4 }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="a" id="h">
+    <div class="container"   ng-controller="mainContr">
+        <table class="table table-bordered table-striped" >
+            <thead>
+            <tr>
+                <td>
+                    <a href="#" ng-click="sortType = 'year5'; sortReverse = !sortReverse">Year
+                        <span ng-show="sortType == 'year5' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'year5' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'month5'; sortReverse = !sortReverse">Month
+                        <span ng-show="sortType == 'month5' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'month5' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'max5'; sortReverse = !sortReverse">Tmax (degC)
+                        <span ng-show="sortType == 'max5' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'max5' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'min5'; sortReverse = !sortReverse">Tmin (degC)
+                        <span ng-show="sortType == 'min5' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'min5' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'af5'; sortReverse = !sortReverse">Af days
+                        <span ng-show="sortType == 'af5' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'af5' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'rain5'; sortReverse = !sortReverse">Rain (mm)
+                        <span ng-show="sortType == 'rain5' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'rain5' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'sun5'; sortReverse = !sortReverse">Sun hours
+                        <span ng-show="sortType == 'sun5' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'sun5' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="rq1 in sushi5 | orderBy:sortType:sortReverse | filter:searchFish">
+                <td>{{ rq1.year5 }}</td>                        <td> {{ rq1.month5 }}</td>
+                <td>{{ rq1.max5 }}</td>                        <td>{{ rq1.min5 }}</td>
+                <td>{{ rq1.af5 }}</td>                        <td>{{ rq1.rain5 }}</td>
+                <td>{{ rq1.sun5 }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="a" id="g">
+    <div class="container"   ng-controller="mainContro">
+        <table class="table table-bordered table-striped" >
+            <thead>
+            <tr>
+                <td>
+                    <a href="#" ng-click="sortType = 'year6'; sortReverse = !sortReverse">Year
+                        <span ng-show="sortType == 'year6' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'year6' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'month6'; sortReverse = !sortReverse">Month
+                        <span ng-show="sortType == 'month6' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'month6' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'max6'; sortReverse = !sortReverse">Tmax (degC)
+                        <span ng-show="sortType == 'max6' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'max6' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'min6'; sortReverse = !sortReverse">Tmin (degC)
+                        <span ng-show="sortType == 'min6' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'min6' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'af6'; sortReverse = !sortReverse">Af days
+                        <span ng-show="sortType == 'af6' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'af6' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'rain6'; sortReverse = !sortReverse">Rain (mm)
+                        <span ng-show="sortType == 'rain6' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'rain6' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'sun6'; sortReverse = !sortReverse">Sun hours
+                        <span ng-show="sortType == 'sun6' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'sun6' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="rq2 in sushi6 | orderBy:sortType:sortReverse | filter:searchFish">
+                <td>{{ rq2.year6 }}</td>                        <td> {{ rq2.month6 }}</td>
+                <td>{{ rq2.max6 }}</td>                        <td>{{ rq2.min6 }}</td>
+                <td>{{ rq2.af6 }}</td>                        <td>{{ rq2.rain6 }}</td>
+                <td>{{ rq2.sun6 }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="a" id="f">
+    <div class="container"   ng-controller="mainControl">
+        <table class="table table-bordered table-striped" >
+            <thead>
+            <tr>
+                <td>
+                    <a href="#" ng-click="sortType = 'year7'; sortReverse = !sortReverse">Year
+                        <span ng-show="sortType == 'year7' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'year7' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'month7'; sortReverse = !sortReverse">Month
+                        <span ng-show="sortType == 'month7' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'month7' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'max7'; sortReverse = !sortReverse">Tmax (degC)
+                        <span ng-show="sortType == 'max7' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'max7' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'min7'; sortReverse = !sortReverse">Tmin (degC)
+                        <span ng-show="sortType == 'min7' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'min7' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'af7'; sortReverse = !sortReverse">Af days
+                        <span ng-show="sortType == 'af7' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'af7' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'rain7'; sortReverse = !sortReverse">Rain (mm)
+                        <span ng-show="sortType == 'rain7' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'rain7' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'sun7'; sortReverse = !sortReverse">Sun hours
+                        <span ng-show="sortType == 'sun7' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'sun7' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="rq3 in sushi7 | orderBy:sortType:sortReverse | filter:searchFish">
+                <td>{{ rq3.year7 }}</td>                        <td> {{ rq3.month7 }}</td>
+                <td>{{ rq3.max7 }}</td>                        <td>{{ rq3.min7 }}</td>
+                <td>{{ rq3.af7 }}</td>                        <td>{{ rq3.rain7 }}</td>
+                <td>{{ rq3.sun7 }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="a" id="i">
+    <div class="container"   ng-controller="mainControll">
+        <table class="table table-bordered table-striped" >
+            <thead>
+            <tr>
+                <td>
+                    <a href="#" ng-click="sortType = 'year8'; sortReverse = !sortReverse">Year
+                        <span ng-show="sortType == 'year8' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'year8' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'month8'; sortReverse = !sortReverse">Month
+                        <span ng-show="sortType == 'month8' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'month8' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'max8'; sortReverse = !sortReverse">Tmax (degC)
+                        <span ng-show="sortType == 'max8' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'max8' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'min8'; sortReverse = !sortReverse">Tmin (degC)
+                        <span ng-show="sortType == 'min8' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'min8' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'af8'; sortReverse = !sortReverse">Af days
+                        <span ng-show="sortType == 'af8' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'af8' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'rain8'; sortReverse = !sortReverse">Rain (mm)
+                        <span ng-show="sortType == 'rain8' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'rain8' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'sun8'; sortReverse = !sortReverse">Sun hours
+                        <span ng-show="sortType == 'sun8' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'sun8' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="rq4 in sushi8 | orderBy:sortType:sortReverse | filter:searchFish">
+                <td>{{ rq4.year8 }}</td>                        <td> {{ rq4.month8 }}</td>
+                <td>{{ rq4.max8 }}</td>                        <td>{{ rq4.min8 }}</td>
+                <td>{{ rq4.af8 }}</td>                        <td>{{ rq4.rain8 }}</td>
+                <td>{{ rq4.sun8 }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="a" id="j">
+    <div class="container"   ng-controller="mainControlle">
+        <table class="table table-bordered table-striped" >
+            <thead>
+            <tr>
+                <td>
+                    <a href="#" ng-click="sortType = 'year9'; sortReverse = !sortReverse">Year
+                        <span ng-show="sortType == 'year9' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'year9' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'month9'; sortReverse = !sortReverse">Month
+                        <span ng-show="sortType == 'month9' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'month9' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'max9'; sortReverse = !sortReverse">Tmax (degC)
+                        <span ng-show="sortType == 'max9' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'max9' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'min9'; sortReverse = !sortReverse">Tmin (degC)
+                        <span ng-show="sortType == 'min9' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'min9' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'af9'; sortReverse = !sortReverse">Af days
+                        <span ng-show="sortType == 'af9' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'af9' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'rain9'; sortReverse = !sortReverse">Rain (mm)
+                        <span ng-show="sortType == 'rain9' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'rain9' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'sun9'; sortReverse = !sortReverse">Sun hours
+                        <span ng-show="sortType == 'sun9' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'sun9' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="rq5 in sushi9 | orderBy:sortType:sortReverse | filter:searchFish">
+                <td>{{ rq5.year9 }}</td>                        <td> {{ rq5.month9 }}</td>
+                <td>{{ rq5.max9 }}</td>                        <td>{{ rq5.min9 }}</td>
+                <td>{{ rq5.af9 }}</td>                        <td>{{ rq5.rain9 }}</td>
+                <td>{{ rq5.sun9 }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="b" id="k">
+    <div class="container"   ng-controller="mainControllerr">
+        <table class="table table-bordered table-striped" >
+            <thead>
+            <tr>
+                <td>
+                    <a href="#" ng-click="sortType = 'year0'; sortReverse = !sortReverse">Year
+                        <span ng-show="sortType == 'year0' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'year0' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'month0'; sortReverse = !sortReverse">Month
+                        <span ng-show="sortType == 'month0' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'month0' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'max0'; sortReverse = !sortReverse">Tmax (degC)
+                        <span ng-show="sortType == 'max0' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'max0' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'min0'; sortReverse = !sortReverse">Tmin (degC)
+                        <span ng-show="sortType == 'min0' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'min0' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'af0'; sortReverse = !sortReverse">Af days
+                        <span ng-show="sortType == 'af0' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'af0' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'rain0'; sortReverse = !sortReverse">Rain (mm)
+                        <span ng-show="sortType == 'rain0' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'rain0' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'sun0'; sortReverse = !sortReverse">Sun hours
+                        <span ng-show="sortType == 'sun0' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'sun0' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="rq6 in sushi0 | orderBy:sortType:sortReverse | filter:searchFish">
+                <td>{{ rq6.year0 }}</td>                        <td> {{ rq6.month0 }}</td>
+                <td>{{ rq6.max0 }}</td>                        <td>{{ rq6.min0 }}</td>
+                <td>{{ rq6.af0 }}</td>                        <td>{{ rq6.rain0 }}</td>
+                <td>{{ rq6.sun0 }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="b" id="l">
+    <div class="container"   ng-controller="mainControllerrr">
+        <table class="table table-bordered table-striped" >
+            <thead>
+            <tr>
+                <td>
+                    <a href="#" ng-click="sortType = 'year01'; sortReverse = !sortReverse">Year
+                        <span ng-show="sortType == 'year01' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'year01' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'month01'; sortReverse = !sortReverse">Month
+                        <span ng-show="sortType == 'month01' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'month01' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'max01'; sortReverse = !sortReverse">Tmax (degC)
+                        <span ng-show="sortType == 'max01' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'max01' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'min01'; sortReverse = !sortReverse">Tmin (degC)
+                        <span ng-show="sortType == 'min01' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'min01' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'af01'; sortReverse = !sortReverse">Af days
+                        <span ng-show="sortType == 'af01' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'af01' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'rain01'; sortReverse = !sortReverse">Rain (mm)
+                        <span ng-show="sortType == 'rain01' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'rain01' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'sun01'; sortReverse = !sortReverse">Sun hours
+                        <span ng-show="sortType == 'sun01' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'sun01' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="rq7 in sushi01 | orderBy:sortType:sortReverse | filter:searchFish">
+                <td>{{ rq7.year01 }}</td>                        <td> {{ rq7.month01 }}</td>
+                <td>{{ rq7.max01 }}</td>                        <td>{{ rq7.min01 }}</td>
+                <td>{{ rq7.af01 }}</td>                        <td>{{ rq7.rain01 }}</td>
+                <td>{{ rq7.sun01 }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="b" id="m">
+    <div class="container"   ng-controller="mainControllerrrr">
+        <table class="table table-bordered table-striped" >
+            <thead>
+            <tr>
+                <td>
+                    <a href="#" ng-click="sortType = 'year02'; sortReverse = !sortReverse">Year
+                        <span ng-show="sortType == 'year02' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'year02' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'month02'; sortReverse = !sortReverse">Month
+                        <span ng-show="sortType == 'month02' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'month02' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'max02'; sortReverse = !sortReverse">Tmax (degC)
+                        <span ng-show="sortType == 'max02' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'max02' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'min02'; sortReverse = !sortReverse">Tmin (degC)
+                        <span ng-show="sortType == 'min02' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'min02' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'af02'; sortReverse = !sortReverse">Af days
+                        <span ng-show="sortType == 'af02' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'af02' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'rain02'; sortReverse = !sortReverse">Rain (mm)
+                        <span ng-show="sortType == 'rain02' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'rain02' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'sun02'; sortReverse = !sortReverse">Sun hours
+                        <span ng-show="sortType == 'sun02' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'sun02' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="rq8 in sushi02 | orderBy:sortType:sortReverse | filter:searchFish">
+                <td>{{ rq8.year02 }}</td>                        <td> {{ rq8.month02 }}</td>
+                <td>{{ rq8.max02 }}</td>                        <td>{{ rq8.min02 }}</td>
+                <td>{{ rq8.af02 }}</td>                        <td>{{ rq8.rain02 }}</td>
+                <td>{{ rq8.sun02 }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+    <small>
+                <span class="navbar-text">&#169; Created by Anna S.
+                </span>
+        <span class="navbar-text1"><a href="#" style="color: gray"><i class="fa fa-youtube"></i></a></span>
+        <span class="navbar-text1"><a href="#" style="color: gray"><i class="fa fa-facebook"></i></a></span>
+        <span class="navbar-text1"><a href="#" style="color: gray"><i class="fa fa-twitter"></i></a></span>
+        <span class="navbar-text1"><a href="#" style="color: gray"><i class="fa fa-instagram"></i></a></span>
+    </small>
+</nav>
+    <script src="new/lib/angular/angular.js"></script>
+<script src="new/lib/angular/angular-route.js"></script>
+<script src="new/lib/angular/angular-resource.js"></script>
+<script src="new/lib/iso-3166-country-codes-angular/iso-3166-country-codes-angular.js"></script>
+<script src="new/new.js"></script>
+<script src="new/app.js"></script>
+<script src="new/services.js"></script>
+<script src="new/controllers.js"></script>
+<script src="new/filters.js"></script>
+<script src="new/directives.js"></script>
+</body>
+</html>

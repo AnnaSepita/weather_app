@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" ng-app="openWeatherApp">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+        <title>Weather</title>
+        <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css"/>
+        <link rel="stylesheet" href="css/app.css"/>
+        <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css">
+        <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="fontawesome/font-awesome.min.css"/>
+    </head>
+    <body>
+        <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/forecast">Weather</a>
+                <a class="navbar-brand" href="info.html">Click to see more weather information</a>
+            </div>
+        </nav>
+        <div class="container">
+            <div ng-view></div>
+        </div>
+        <nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+            <small id="sp">
+                <span class="navbar-text">&#169; Created by Anna S.</span>
+                <span class="navbar-text1"><a href="#" style="color: gray"><i class="fa fa-youtube"></i></a></span>
+           <span class="navbar-text1"><a href="#" style="color: gray"><i class="fa fa-facebook"></i></a></span>
+                <span class="navbar-text1"><a href="#" style="color: gray"><i class="fa fa-twitter"></i></a></span>
+                <span class="navbar-text1"><a href="#" style="color: gray"><i class="fa fa-instagram"></i></a></span>
+            </small>
+        </nav>
+        <script src="lib/angular/angular.js"></script>
+        <script src="lib/angular/angular-route.js"></script>
+        <script src="lib/angular/angular-resource.js"></script>
+        <script src="lib/iso-3166-country-codes-angular/iso-3166-country-codes-angular.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/services.js"></script>
+        <script src="js/controllers.js"></script>
+        <script src="js/filters.js"></script>
+        <script src="js/directives.js"></script>
+
+    </body>
+</html>

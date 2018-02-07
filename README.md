@@ -5,8 +5,8 @@
 via git and npm:
 
 ```
-$ git clone https://github.com/AnnaSepita/weather2.git
-$ cd weather2
+$ git clone https://github.com/AnnaSepita/weather_app.git
+$ cd weather_app
 $ npm install
 $ npm start
 ```

@@ -3,8 +3,8 @@
   "description": "A weather forecast app written in AngularJS based on OpenWeatherMap API calls",
   "version": "0.1.6",
   "author": {
-    "name": "Matthias Lienau",
-    "email": "matthias@mlienau.de"
+    "name": "Anna S.",
+    "email": "annasepita1@gmail.com"
   },
   "scripts": {
     "start": "node scripts/web-server.js"
